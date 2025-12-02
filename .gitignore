@@ -12,3 +12,5 @@ venv/
 /score_plots/
 /lifespan_data.csv
 /Lifespan/
+/user_scatter_data.csv
+/user_scatter/
