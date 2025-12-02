@@ -1,0 +1,11 @@
+Pilat projekt 1
+- Reddit funny/interesting slide
+- Popis subredditu
+- Vizualizace zajimavych/aktivnich uzivatelu v ramci jednotlivych subredditu
+- Skore a antiskore
+- Scatter plot uzivatelu subredditu (na zaklade? )
+- Scatter plot temat
+
+
+- Vizualizace konfliktnich subredditu 
+	- aspon 2 grafy
