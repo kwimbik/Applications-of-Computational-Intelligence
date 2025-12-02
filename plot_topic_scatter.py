@@ -80,13 +80,14 @@ def plot_scatter(df: pd.DataFrame, coords: np.ndarray, output_path: Path, title:
         s=12,
         edgecolor="none",
     )
-    ax.set_title(title)
-    ax.set_xlabel("Component 1")
-    ax.set_ylabel("Component 2")
+    ax.set_title(title, fontsize=18)
+    ax.set_xlabel("Component 1", fontsize=14)
+    ax.set_ylabel("Component 2", fontsize=14)
+    ax.tick_params(axis="both", which="major", labelsize=12)
     ax.grid(alpha=0.2)
 
     handles, labels = scatter.legend_elements(num=max(df["cluster"].nunique(), 1))
-    ax.legend(handles, labels, title="Cluster", loc="best", fontsize=9)
+    ax.legend(handles, labels, title="Cluster", loc="best", fontsize=12, title_fontsize=14)
 
     plt.tight_layout()
     output_path.parent.mkdir(parents=True, exist_ok=True)

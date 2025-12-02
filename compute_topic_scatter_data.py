@@ -9,7 +9,6 @@ import argparse
 import json
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
@@ -48,6 +47,12 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=5000,
         help="Maximum TF-IDF features (default: 5000).",
+    )
+    parser.add_argument(
+        "--top-terms",
+        type=int,
+        default=10,
+        help="Number of top-weighted terms to display per PCA component (default: 10).",
     )
     return parser.parse_args()
 
@@ -92,6 +97,21 @@ def collect_posts(file_path: Path) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def describe_components(
+    pca_model: PCA, feature_names, top_terms: int
+) -> None:
+    top_terms = max(1, top_terms)
+    for idx, component in enumerate(pca_model.components_[:2], start=1):
+        sorted_idx = component.argsort()
+        top_pos = sorted_idx[-top_terms:][::-1]
+        top_neg = sorted_idx[:top_terms]
+        terms_pos = [feature_names[i] for i in top_pos]
+        terms_neg = [feature_names[i] for i in top_neg]
+        print(f"PCA component {idx}:")
+        print("  High positive terms:", ", ".join(terms_pos))
+        print("  High negative terms:", ", ".join(terms_neg))
+
+
 def main() -> None:
     args = parse_args()
     if not args.submission_file.exists():
@@ -111,9 +131,11 @@ def main() -> None:
         min_df=2,
     )
     tfidf_matrix = vectorizer.fit_transform(df["text"])
+    feature_names = vectorizer.get_feature_names_out()
 
     pca = PCA(n_components=min(50, tfidf_matrix.shape[1]))
     dense_vectors = pca.fit_transform(tfidf_matrix.toarray())
+    describe_components(pca, feature_names, args.top_terms)
 
     clusterer = KMeans(n_clusters=args.clusters, random_state=42, n_init="auto")
     cluster_labels = clusterer.fit_predict(dense_vectors)
