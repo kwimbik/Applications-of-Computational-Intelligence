@@ -12,3 +12,4 @@ venv/
 /lifespan_data.csv
 /user_scatter_data.csv
 /topic_scatter_data.csv
+/user_sentiment_contrast.csv

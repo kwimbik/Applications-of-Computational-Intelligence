@@ -9,3 +9,8 @@ Pilat projekt 1
 
 - Vizualizace konfliktnich subredditu 
 	- aspon 2 grafy
+
+
+TODO PS:
+naskalovat avg skore na log, jinak barevna skala
+clustering pca - neco zjistit o komponentach. zlogaritmovat
