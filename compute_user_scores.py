@@ -38,9 +38,12 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--output-figure",
-        default="user_scores_top_bottom.png",
+        default=Path("score_plots/user_scores_top_bottom.png"),
         type=Path,
-        help="Path to write top/bottom plot (default: user_scores_top_bottom.png)",
+        help=(
+            "Path to write top/bottom plot "
+            "(default: score_plots/user_scores_top_bottom.png)"
+        ),
     )
     parser.add_argument(
         "--include-deleted",
@@ -101,10 +104,22 @@ def accumulate_scores(
     return df
 
 
+def infer_label_size(count: int) -> int:
+    if count <= 25:
+        return 12
+    if count <= 50:
+        return 9
+    if count <= 100:
+        return 7
+    return 6
+
+
 def make_plot(df: pd.DataFrame, output_path: Path) -> None:
     sorted_df = df.sort_values("score", ascending=False)
     top = sorted_df.head(100)
     bottom = sorted_df.tail(100)
+    label_size_top = infer_label_size(len(top))
+    label_size_bottom = infer_label_size(len(bottom))
 
     fig, axes = plt.subplots(2, 1, figsize=(12, 18))
 
@@ -112,15 +127,16 @@ def make_plot(df: pd.DataFrame, output_path: Path) -> None:
     axes[0].invert_yaxis()
     axes[0].set_title("Top 100 Users by Score")
     axes[0].set_xlabel("Score")
-    axes[0].tick_params(axis="y", labelsize=6)
+    axes[0].tick_params(axis="y", labelsize=label_size_top)
 
     axes[1].barh(bottom["user"], bottom["score"], color="#c53030")
     axes[1].invert_yaxis()
     axes[1].set_title("Bottom 100 Users by Score")
     axes[1].set_xlabel("Score")
-    axes[1].tick_params(axis="y", labelsize=6)
+    axes[1].tick_params(axis="y", labelsize=label_size_bottom)
 
     plt.tight_layout()
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(output_path, dpi=200)
     plt.close(fig)
 

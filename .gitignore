@@ -1,1 +1,14 @@
+# Bytecode & caches
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+
+# Local datasets and derived artifacts
 /data/
+/user_scores.csv
+/score_plots/
+/lifespan_data.csv
+/Lifespan/
