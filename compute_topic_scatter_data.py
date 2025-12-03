@@ -54,6 +54,12 @@ def parse_args() -> argparse.Namespace:
         default=10,
         help="Number of top-weighted terms to display per PCA component (default: 10).",
     )
+    parser.add_argument(
+        "--cluster-terms",
+        type=int,
+        default=5,
+        help="Number of terms to summarize each cluster (default: 5).",
+    )
     return parser.parse_args()
 
 
@@ -112,6 +118,24 @@ def describe_components(
         print("  High negative terms:", ", ".join(terms_neg))
 
 
+def describe_clusters(
+    tfidf_matrix, cluster_labels, feature_names, top_terms: int
+) -> Dict[int, str]:
+    summaries: Dict[int, str] = {}
+    top_terms = max(1, top_terms)
+    for cluster in sorted(set(cluster_labels)):
+        mask = cluster_labels == cluster
+        if mask.sum() == 0:
+            continue
+        cluster_mean = tfidf_matrix[mask].mean(axis=0).A1
+        top_idx = cluster_mean.argsort()[-top_terms:][::-1]
+        terms = [feature_names[i] for i in top_idx]
+        label = ", ".join(terms)
+        summaries[cluster] = label
+        print(f"Cluster {cluster}: {label}")
+    return summaries
+
+
 def main() -> None:
     args = parse_args()
     if not args.submission_file.exists():
@@ -140,10 +164,17 @@ def main() -> None:
     clusterer = KMeans(n_clusters=args.clusters, random_state=42, n_init="auto")
     cluster_labels = clusterer.fit_predict(dense_vectors)
 
+    cluster_terms = describe_clusters(
+        tfidf_matrix, cluster_labels, feature_names, args.cluster_terms
+    )
+
     df = df.reset_index(drop=True)
     df["pca_component_1"] = dense_vectors[:, 0]
     df["pca_component_2"] = dense_vectors[:, 1] if dense_vectors.shape[1] > 1 else 0
     df["cluster"] = cluster_labels
+    df["cluster_label"] = df["cluster"].map(
+        lambda c: cluster_terms.get(c, f"Cluster {c}")
+    )
 
     df.to_csv(args.output_csv, index=False)
     print(f"Wrote topic data to {args.output_csv}")

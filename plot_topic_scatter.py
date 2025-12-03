@@ -81,13 +81,37 @@ def plot_scatter(df: pd.DataFrame, coords: np.ndarray, output_path: Path, title:
         edgecolor="none",
     )
     ax.set_title(title, fontsize=18)
-    ax.set_xlabel("Component 1", fontsize=14)
+    ax.set_xscale("symlog", linthresh=1e-2)
+    ax.set_xlabel("Component 1 (symlog)", fontsize=14)
     ax.set_ylabel("Component 2", fontsize=14)
     ax.tick_params(axis="both", which="major", labelsize=12)
     ax.grid(alpha=0.2)
 
-    handles, labels = scatter.legend_elements(num=max(df["cluster"].nunique(), 1))
-    ax.legend(handles, labels, title="Cluster", loc="best", fontsize=12, title_fontsize=14)
+    legend_handles = []
+    seen = set()
+    for cluster, label in zip(df["cluster"], df["cluster_label"]):
+        if cluster in seen:
+            continue
+        seen.add(cluster)
+        color = scatter.cmap(scatter.norm(cluster))
+        legend_handles.append(
+            plt.Line2D(
+                [0],
+                [0],
+                marker="o",
+                color="w",
+                markerfacecolor=color,
+                markersize=8,
+                label=label,
+            )
+        )
+    ax.legend(
+        handles=legend_handles,
+        title="Cluster descriptors",
+        loc="best",
+        fontsize=12,
+        title_fontsize=14,
+    )
 
     plt.tight_layout()
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -102,7 +126,7 @@ def main() -> None:
         raise SystemExit(f"CSV file not found: {args.csv}")
 
     df = pd.read_csv(args.csv)
-    required = {"cluster", "pca_component_1", "pca_component_2"}
+    required = {"cluster", "pca_component_1", "pca_component_2", "cluster_label"}
     if not required.issubset(df.columns):
         raise SystemExit(f"CSV missing required columns: {required}")
 
