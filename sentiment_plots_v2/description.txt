@@ -1,0 +1,5 @@
+Plots here visualize the enriched sentiment contrast data from
+compare_user_sentiment_v2.py. Each scatter shows users with positive comments
+in one board and negative in the other, encoding contrast direction via color
+and overall activity via point size to highlight the most interesting cross-
+community shifts.

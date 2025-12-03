@@ -45,8 +45,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--target-count",
         type=int,
-        default=50,
-        help="Number of users to collect per direction before stopping (default: 50).",
+        default=15,
+        help="Number of users to collect per direction before stopping (default: 15).",
     )
     parser.add_argument(
         "--board-a-label",

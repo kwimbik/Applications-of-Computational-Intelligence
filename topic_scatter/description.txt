@@ -1,0 +1,4 @@
+Topic scatter plots from compute_topic_scatter_data.py live here. Each figure
+projects TF-IDF representations of posts into two dimensions (PCA or UMAP),
+colors points by KMeans cluster, and labels clusters with their top keywords to
+show how discussions group into interpretable themes.

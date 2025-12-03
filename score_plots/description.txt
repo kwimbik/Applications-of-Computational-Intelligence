@@ -1,0 +1,4 @@
+This folder stores score distribution plots rendered by compute_user_scores.py.
+Each PNG highlights the 100 users with the highest and lowest total comment
+scores across the processed subreddits, with bar lengths showing cumulative
+score, so we can quickly spot standout contributors and outliers.

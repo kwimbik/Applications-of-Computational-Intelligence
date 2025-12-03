@@ -1,0 +1,4 @@
+The scatter images in this directory visualize per-user activity versus
+average comment score. Points represent sampled users, positioned by their
+comment counts (log-scaled) and mean score (symlog), colored by average score,
+and sized uniformly so we can compare prolific versus high-impact accounts.
