@@ -10,6 +10,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import pandas as pd
+from matplotlib.colors import SymLogNorm
 
 
 def parse_args() -> argparse.Namespace:
@@ -58,20 +59,26 @@ def main() -> None:
         df = df.sample(n=sample_size, random_state=None)
 
     fig, ax = plt.subplots(figsize=(12, 8))
+    vmin = df["average_score"].min()
+    vmax = df["average_score"].max()
+    norm = SymLogNorm(linthresh=1.0, vmin=vmin, vmax=vmax, base=10)
     scatter = ax.scatter(
         df["comment_count"],
         df["average_score"],
         c=df["average_score"],
-        cmap="viridis",
+        cmap="coolwarm",
+        norm=norm,
         alpha=0.6,
         edgecolor="none",
     )
-    ax.set_xlabel("Comment count (activity)")
-    ax.set_ylabel("Average score")
+    ax.set_xscale("log")
+    ax.set_xlabel("Comment count (activity, log scale)")
+    ax.set_yscale("symlog", linthresh=1.0)
+    ax.set_ylabel("Average score (symlog)")
     ax.set_title("User Activity vs Average Score")
     ax.grid(alpha=0.3)
     cbar = fig.colorbar(scatter, ax=ax)
-    cbar.set_label("Average score")
+    cbar.set_label("Average score (symlog scale)")
 
     caption = f"Users plotted: {len(df)}"
     ax.text(
