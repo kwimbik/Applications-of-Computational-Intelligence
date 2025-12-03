@@ -11,6 +11,3 @@ Pilat projekt 1
 	- aspon 2 grafy
 
 
-TODO PS:
-naskalovat avg skore na log, jinak barevna skala
-clustering pca - neco zjistit o komponentach. zlogaritmovat
