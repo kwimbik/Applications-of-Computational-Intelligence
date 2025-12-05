@@ -12,7 +12,7 @@ Pilat projekt 1
 
 
 todo: score withou atomoderator, try top 5
-top score: prumer na porovnani
+top score: prumer na porovnani DONE
 Sentiment contract: legenda je v pici: DONE
 Topic: Chybi popsani os :DONE
 Board wars: pokus o flipnuti, zkusit rovn cary. Zkusit jiny pocet

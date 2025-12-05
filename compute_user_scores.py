@@ -25,10 +25,9 @@ def parse_args() -> argparse.Namespace:
         description="Compute per-user score/antiscore from Reddit comment dumps."
     )
     parser.add_argument(
-        "--data-dir",
-        default="data",
+        "comment_file",
         type=Path,
-        help='Directory containing "*_comments" files (default: data)',
+        help="Path to a *_comments file to aggregate.",
     )
     parser.add_argument(
         "--output-csv",
@@ -143,11 +142,13 @@ def make_plot(df: pd.DataFrame, output_path: Path) -> None:
 
 def main() -> None:
     args = parse_args()
-    comment_files = sorted(args.data_dir.glob("*_comments"))
-    if not comment_files:
-        raise SystemExit(f"No comment files found in {args.data_dir}")
+    comment_file = args.comment_file
+    if not comment_file.exists():
+        raise SystemExit(f"Comment file not found: {comment_file}")
+    if not comment_file.is_file():
+        raise SystemExit(f"Provided path is not a file: {comment_file}")
 
-    df = accumulate_scores(comment_files, include_deleted=args.include_deleted)
+    df = accumulate_scores([comment_file], include_deleted=args.include_deleted)
     df.to_csv(args.output_csv, index=False)
 
     if not df.empty:
