@@ -2,4 +2,7 @@ Plots here visualize the enriched sentiment contrast data from
 compare_user_sentiment_v2.py. Each scatter shows users with positive comments
 in one board and negative in the other, encoding contrast direction via color
 and overall activity via point size to highlight the most interesting cross-
-community shifts.
+community shifts. If the blue cluster leans farther right than the red cluster
+while sharing similar vertical placement, it means the “Board A positive →
+Board B negative” users were happier in Board A than their counterparts were in
+Board B, so Board A resonated better with those crossover users.

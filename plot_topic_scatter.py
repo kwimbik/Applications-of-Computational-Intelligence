@@ -71,6 +71,7 @@ def ensure_projection(df: pd.DataFrame, sample_size: int, use_umap: bool):
 
 def plot_scatter(df: pd.DataFrame, coords: np.ndarray, output_path: Path, title: str) -> None:
     fig, ax = plt.subplots(figsize=(12, 8))
+
     scatter = ax.scatter(
         coords[:, 0],
         coords[:, 1],
@@ -82,8 +83,8 @@ def plot_scatter(df: pd.DataFrame, coords: np.ndarray, output_path: Path, title:
     )
     ax.set_title(title, fontsize=18)
     ax.set_xscale("symlog", linthresh=1e-2)
-    ax.set_xlabel("Component 1 (symlog)", fontsize=14)
-    ax.set_ylabel("Component 2", fontsize=14)
+    ax.set_xlabel("Component 1 score (TF-IDF PCA topic axis, symlog)", fontsize=14)
+    ax.set_ylabel("Component 2 score (TF-IDF PCA topic axis)", fontsize=14)
     ax.tick_params(axis="both", which="major", labelsize=12)
     ax.grid(alpha=0.2)
 

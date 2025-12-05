@@ -54,6 +54,9 @@ def main() -> None:
     if df.empty:
         raise SystemExit("No users remaining to plot after filtering.")
 
+    avg_score = df["average_score"].mean()
+    avg_comments = df["comment_count"].mean()
+
     sample_size = max(1, args.sample_size)
     if len(df) > sample_size:
         df = df.sample(n=sample_size, random_state=None)
@@ -75,7 +78,9 @@ def main() -> None:
     ax.set_xlabel("Comment count (activity, log scale)")
     ax.set_yscale("symlog", linthresh=1.0)
     ax.set_ylabel("Average score (symlog)")
-    ax.set_title("User Activity vs Average Score")
+    ax.set_title(
+        f"User Activity vs Average Score — mean score {avg_score:.2f}, mean comments {avg_comments:.0f}"
+    )
     ax.grid(alpha=0.3)
     cbar = fig.colorbar(scatter, ax=ax)
     cbar.set_label("Average score (symlog scale)")

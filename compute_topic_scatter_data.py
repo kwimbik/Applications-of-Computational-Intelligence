@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+from typing import Dict, List
 
 import pandas as pd
 from sklearn.cluster import KMeans
@@ -105,8 +106,9 @@ def collect_posts(file_path: Path) -> pd.DataFrame:
 
 def describe_components(
     pca_model: PCA, feature_names, top_terms: int
-) -> None:
+) -> List[Dict[str, List[str]]]:
     top_terms = max(1, top_terms)
+    descriptions: List[Dict[str, List[str]]] = []
     for idx, component in enumerate(pca_model.components_[:2], start=1):
         sorted_idx = component.argsort()
         top_pos = sorted_idx[-top_terms:][::-1]
@@ -116,6 +118,14 @@ def describe_components(
         print(f"PCA component {idx}:")
         print("  High positive terms:", ", ".join(terms_pos))
         print("  High negative terms:", ", ".join(terms_neg))
+        descriptions.append(
+            {
+                "component": idx,
+                "positive_terms": terms_pos,
+                "negative_terms": terms_neg,
+            }
+        )
+    return descriptions
 
 
 def describe_clusters(
@@ -159,7 +169,7 @@ def main() -> None:
 
     pca = PCA(n_components=min(50, tfidf_matrix.shape[1]))
     dense_vectors = pca.fit_transform(tfidf_matrix.toarray())
-    describe_components(pca, feature_names, args.top_terms)
+    component_descriptions = describe_components(pca, feature_names, args.top_terms)
 
     clusterer = KMeans(n_clusters=args.clusters, random_state=42, n_init="auto")
     cluster_labels = clusterer.fit_predict(dense_vectors)
@@ -171,6 +181,14 @@ def main() -> None:
     df = df.reset_index(drop=True)
     df["pca_component_1"] = dense_vectors[:, 0]
     df["pca_component_2"] = dense_vectors[:, 1] if dense_vectors.shape[1] > 1 else 0
+    component_labels = {}
+    for comp in component_descriptions:
+        preview = 3
+        pos = ", ".join(comp["positive_terms"][:preview])
+        neg = ", ".join(comp["negative_terms"][:preview])
+        component_labels[comp["component"]] = f"Component {comp['component']}: {pos} <-> {neg}"
+    df["pca_component_1_desc"] = component_labels.get(1, "Component 1")
+    df["pca_component_2_desc"] = component_labels.get(2, "Component 2")
     df["cluster"] = cluster_labels
     df["cluster_label"] = df["cluster"].map(
         lambda c: cluster_terms.get(c, f"Cluster {c}")
