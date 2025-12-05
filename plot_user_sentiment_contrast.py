@@ -24,6 +24,18 @@ def parse_args() -> argparse.Namespace:
         description="Plot bipartite sentiment graph from user_sentiment_contrast.csv."
     )
     parser.add_argument(
+        "max_users",
+        nargs="?",
+        type=int,
+        help="Optional positional cap per board direction.",
+    )
+    parser.add_argument(
+        "csv_path",
+        nargs="?",
+        type=Path,
+        help="Optional positional path to the sentiment contrast CSV.",
+    )
+    parser.add_argument(
         "--csv",
         default=Path("user_sentiment_contrast.csv"),
         type=Path,
@@ -39,13 +51,13 @@ def parse_args() -> argparse.Namespace:
         "--max-rows",
         type=int,
         default=None,
-        help="Optional cap on number of rows/users to plot.",
+        help="Optional cap per board direction (same as positional argument).",
     )
     parser.add_argument(
         "--curve-rad",
         type=float,
-        default=0.15,
-        help="Curvature radius for connecting arcs (default: 0.15).",
+        default=0.0,
+        help="Curvature radius for connecting arcs (default: 0 for straight lines).",
     )
     return parser.parse_args()
 
@@ -74,7 +86,8 @@ def plot_bipartite(df: pd.DataFrame, output_path: Path, curve_rad: float) -> Non
     board_a_label = df["board_a_label"].iloc[0] if "board_a_label" in df else "Board A"
     board_b_label = df["board_b_label"].iloc[0] if "board_b_label" in df else "Board B"
 
-    fig, ax = plt.subplots(figsize=(14, max(6, len(df) * 0.2)))
+    height = max(4, len(df) * 0.12)
+    fig, ax = plt.subplots(figsize=(18, height))
 
     for y, (_, row) in zip(y_positions, df.iterrows()):
         # Determine which entry belongs to board A / B
@@ -141,7 +154,14 @@ def plot_bipartite(df: pd.DataFrame, output_path: Path, curve_rad: float) -> Non
             (f"{board_a_label if board=='A' else board_b_label} negative", sentiments["negative"]),
         ]
     ]
-    ax.legend(handles=legend_handles, loc="upper right", fontsize=10)
+    ax.legend(
+        handles=legend_handles,
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.05),
+        ncol=2,
+        fontsize=10,
+        frameon=False,
+    )
 
     plt.tight_layout()
     fig.savefig(output_path, dpi=200)
@@ -151,10 +171,11 @@ def plot_bipartite(df: pd.DataFrame, output_path: Path, curve_rad: float) -> Non
 
 def main() -> None:
     args = parse_args()
-    if not args.csv.exists():
-        raise SystemExit(f"CSV file not found: {args.csv}")
+    csv_path = args.csv_path or args.csv
+    if not csv_path.exists():
+        raise SystemExit(f"CSV file not found: {csv_path}")
 
-    df = pd.read_csv(args.csv)
+    df = pd.read_csv(csv_path)
     required = {
         "user",
         "positive_score",
@@ -176,8 +197,15 @@ def main() -> None:
     if df.empty:
         raise SystemExit("CSV contains no valid rows.")
 
-    if args.max_rows and len(df) > args.max_rows:
-        df = df.head(args.max_rows)
+    max_rows = args.max_users if args.max_users is not None else args.max_rows
+    if max_rows:
+        slices = []
+        for board in ("A", "B"):
+            subset = df[df["positive_board"] == board]
+            if not subset.empty:
+                slices.append(subset.head(max_rows))
+        if slices:
+            df = pd.concat(slices, ignore_index=True)
 
     plot_bipartite(df, args.output, args.curve_rad)
 

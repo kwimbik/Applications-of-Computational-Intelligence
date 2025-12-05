@@ -11,7 +11,7 @@ Pilat projekt 1
 	- aspon 2 grafy
 
 
-todo: score withou atomoderator, try top 5
+todo: score withou atomoderator, try top 5: DONE
 top score: prumer na porovnani DONE
 Sentiment contract: legenda je v pici: DONE
 Topic: Chybi popsani os :DONE
