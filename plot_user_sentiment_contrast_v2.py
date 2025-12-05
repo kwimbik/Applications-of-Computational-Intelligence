@@ -40,12 +40,6 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Optional cap on number of rows to plot.",
     )
-    parser.add_argument(
-        "--annotate-top",
-        type=int,
-        default=5,
-        help="Number of most contrasting users to annotate (default: 5).",
-    )
     return parser.parse_args()
 
 
@@ -125,21 +119,7 @@ def main() -> None:
             ("B->A", DIRECTION_COLORS["B->A"], f"{board_b_label} positive → {board_a_label} negative"),
         ]
     ]
-    ax.legend(handles=legend_elements, loc="upper right", fontsize=10)
-
-    annotate_df = df.copy()
-    annotate_df["abs_contrast"] = annotate_df["contrast"].abs()
-    annotate_df.sort_values("abs_contrast", ascending=False, inplace=True)
-    for _, row in annotate_df.head(args.annotate_top).iterrows():
-        ax.text(
-            row["positive_score"],
-            row["negative_score"],
-            row["user"],
-            fontsize=9,
-            color="#111827",
-            ha="left",
-            va="bottom",
-        )
+    ax.legend(handles=legend_elements, loc="lower right", fontsize=10)
 
     plt.tight_layout()
     args.output.parent.mkdir(parents=True, exist_ok=True)
