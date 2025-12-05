@@ -11,3 +11,8 @@ Pilat projekt 1
 	- aspon 2 grafy
 
 
+todo: score withou atomoderator, try top 5
+top score: prumer na porovnani
+Sentiment contract: legenda je v pici
+Topic: Chybi popsani os
+Board wars: pokus o flipnuti, zkusit rovn cary. Zkusit jiny pocet
