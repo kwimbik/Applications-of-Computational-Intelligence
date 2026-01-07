@@ -1,0 +1,23 @@
+graph community {
+  graph [overlap=false, splines=true];
+  node [shape=circle, style=filled, fontname=Helvetica, fillcolor="#f2c14e"];
+  "BailandoBailando";
+  "CallMeLeon5";
+  "EmmeFerguson131";
+  "KassyLeonardo";
+  "MamiIsMe";
+  "RonMemorna";
+  "SaintsIsForMe";
+  "ThroneMaster555";
+  "memorylane5";
+  "mrblood555";
+  "EmmeFerguson131" -- "KassyLeonardo" [label="1", color="#a9cadf", penwidth=1.50];
+  "ThroneMaster555" -- "memorylane5" [label="1", color="#87a6be", penwidth=1.50];
+  "CallMeLeon5" -- "mrblood555" [label="1", color="#2a4364", penwidth=1.50];
+  "SaintsIsForMe" -- "mrblood555" [label="1", color="#1d3557", penwidth=1.50];
+  "BailandoBailando" -- "EmmeFerguson131" [label="1", color="#bfe1f4", penwidth=1.50];
+  "BailandoBailando" -- "ThroneMaster555" [label="1", color="#98b7ce", penwidth=1.50];
+  "BailandoBailando" -- "RonMemorna" [label="1", color="#7390aa", penwidth=1.50];
+  "BailandoBailando" -- "CallMeLeon5" [label="1", color="#415c7a", penwidth=1.50];
+  "BailandoBailando" -- "MamiIsMe" [label="1", color="#375070", penwidth=1.50];
+}

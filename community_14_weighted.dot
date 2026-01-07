@@ -1,0 +1,33 @@
+graph community {
+  graph [overlap=false, splines=true];
+  node [shape=circle, style=filled, fontname=Helvetica, fillcolor="#f2c14e"];
+  "ALLGAMER88";
+  "Common_Mode404";
+  "DearCommunication232";
+  "Estimate-Former";
+  "Gorben_Kaiser";
+  "Safe_Ingenuity9217";
+  "SavageAsFk69";
+  "Thomas14755";
+  "amonguseon";
+  "jaxtaposition088";
+  "laniii_lemon";
+  "lonelyysoul";
+  "nnotimportantt";
+  "sharkfinn444";
+  "zaddyu";
+  "DearCommunication232" -- "Thomas14755" [label="2", color="#bfe1f4", penwidth=1.33];
+  "Common_Mode404" -- "Thomas14755" [label="7", color="#a4c5da", penwidth=3.00];
+  "Thomas14755" -- "zaddyu" [label="13", color="#87a6be", penwidth=5.00];
+  "Gorben_Kaiser" -- "Thomas14755" [label="3", color="#809eb7", penwidth=1.67];
+  "Thomas14755" -- "laniii_lemon" [label="1", color="#809eb7", penwidth=1.00];
+  "Thomas14755" -- "nnotimportantt" [label="2", color="#7b99b2", penwidth=1.33];
+  "Thomas14755" -- "lonelyysoul" [label="1", color="#7896af", penwidth=1.00];
+  "Thomas14755" -- "sharkfinn444" [label="2", color="#6c89a4", penwidth=1.33];
+  "SavageAsFk69" -- "Thomas14755" [label="4", color="#67849f", penwidth=2.00];
+  "Thomas14755" -- "jaxtaposition088" [label="5", color="#57728f", penwidth=2.33];
+  "Thomas14755" -- "amonguseon" [label="1", color="#30496a", penwidth=1.00];
+  "ALLGAMER88" -- "Thomas14755" [label="5", color="#274061", penwidth=2.33];
+  "Estimate-Former" -- "Thomas14755" [label="2", color="#2c4566", penwidth=1.33];
+  "Safe_Ingenuity9217" -- "Thomas14755" [label="1", color="#1d3557", penwidth=1.00];
+}

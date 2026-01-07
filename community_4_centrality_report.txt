@@ -1,0 +1,68 @@
+Community 4 centrality report
+Nodes: 109
+Edges: 240
+Density: 0.0408
+Average degree: 4.34
+Average edge weight: 6.38
+Connected components: 1
+Largest component size: 109
+
+Top 10 by weighted degree (strength):
+  MrSilenceT	1016
+  torpedo46	628
+  Zografito	131
+  gatewalker13	97
+  UnluckyStrategy8	83
+  leonardovuong	70
+  Episode7Theorist	48
+  waitwhatjusthapp2	45
+  thewhitewolf199	42
+  RandomGuy2604	41
+
+Top 10 by degree (unweighted):
+  MrSilenceT	102
+  torpedo46	42
+  Zografito	16
+  gatewalker13	16
+  Episode7Theorist	12
+  UnluckyStrategy8	12
+  leonardovuong	12
+  Paulko91	11
+  Secton90	11
+  thewhitewolf199	11
+
+Top 10 by betweenness (weighted):
+  MrSilenceT	5584.5000
+  torpedo46	1503.5000
+  Zografito	107.0000
+  gatewalker13	107.0000
+  kalingad_dynasty	107.0000
+  milanthgautham	107.0000
+  snaptickets	107.0000
+  AZmeadowlark	0.0000
+  Akrevics	0.0000
+  AldoBooth	0.0000
+
+Top 10 by closeness (weighted):
+  MrSilenceT	3.106048
+  torpedo46	3.083316
+  leonardovuong	2.935601
+  Zografito	2.915488
+  waitwhatjusthapp2	2.873359
+  gatewalker13	2.857870
+  UnluckyStrategy8	2.835809
+  EternalScratches	2.825562
+  MockingbirdLF	2.798485
+  Far_Refrigerator_250	2.739514
+
+Top 10 by eigenvector centrality (weighted):
+  MrSilenceT	0.674737
+  torpedo46	0.644028
+  Zografito	0.187261
+  UnluckyStrategy8	0.120498
+  gatewalker13	0.115084
+  leonardovuong	0.112399
+  waitwhatjusthapp2	0.079426
+  EternalScratches	0.067755
+  Episode7Theorist	0.067275
+  wonderingaround11	0.065378
